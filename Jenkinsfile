@@ -20,6 +20,7 @@ node('DOTNETCORE'){
         }
         stage('Build') {
             environment {
+				VERSION = "0.1.0" 
                 VERSION_SUFFIX = getVersionSuffix()
             }
             
