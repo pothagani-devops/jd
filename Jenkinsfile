@@ -22,7 +22,7 @@ node('DOTNETCORE'){
             environment {
                 VERSION_SUFFIX = getVersionSuffix()
             }
-            steps {
+            
               echo "Building version: ${VERSION} with suffix: ${VERSION_SUFFIX}"
 			  try{
               sh 'dotnet build -p:VersionPrefix="${VERSION}" --version-suffix "${VERSION_SUFFIX}" ./src/Pi.Web/Pi.Web.csproj'
@@ -30,10 +30,10 @@ node('DOTNETCORE'){
 			  archiveArtifacts artifacts: 'src/*.*'
 			  }
 			  
-            }
+            
         }
         stage('Unit Test') {
-            steps {
+            
               dir('./src') {
                 sh '''
                     dotnet test --logger "trx;LogFileName=Pi.Math.trx" Pi.Math.Tests/Pi.Math.Tests.csproj
@@ -41,21 +41,21 @@ node('DOTNETCORE'){
                 '''
                 mstest testResultsFile:"**/*.trx", keepLongStdio: true
               }
-            }
+            
         }
         stage('Smoke Test') {
-            steps {
+            
               sh 'dotnet ./src/Pi.Web/bin/Debug/netcoreapp3.1/Pi.Web.dll'
-            }
+            
         }
         stage('Publish') {
             when {
                 expression { return params.RC }
             } 
-            steps {
+            
                 sh 'dotnet publish -p:VersionPrefix="${VERSION}" --version-suffix "${VERSION_RC}" ./src/Pi.Web/Pi.Web.csproj -o ./out'
                 archiveArtifacts('out/')
-            }
+            
         }
 		stage('Archive'){
 			archiveArtifacts artifacts: 'src/*.*'
