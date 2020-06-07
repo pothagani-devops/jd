@@ -14,9 +14,9 @@ node('DOTNETCORE'){
 		}
 		
         stage('Audit tools') {                        
-            steps {
+            
                 auditTools()
-            }
+            
         }
         stage('Build') {
             environment {
