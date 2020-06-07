@@ -7,7 +7,7 @@ node('DOTNETCORE'){
         VERSION = "0.1.0"        
         VERSION_RC = "rc.2"
     }
-    stages {
+    
 	
 		stage('SCM'){
 		checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/pothagani-devops/jd']]])
@@ -61,7 +61,7 @@ node('DOTNETCORE'){
 			archiveArtifacts artifacts: 'src/*.*'
 		}
     }
-}
+
 
 String getVersionSuffix() {
     if (params.RC) {
